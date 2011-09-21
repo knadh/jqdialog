@@ -1,25 +1,30 @@
 /**
 	Kailash Nadh,	http://kailashnadh.name
-	April 2011
+	September 2011
 	Smooth popup dialog for jQuery
+	http://kailashnadh.name/code/jqdialog
 
-	License:	GNU Public License: http://www.fsf.org/copyleft/gpl.html
+	License: GPL
 	
+	v1.4	September 21 2011	-	Added support for Enter and Escape keyboard shortcuts.
 	v1.3.1	April 4 2011	-	Fixed an IE compatibility issue. Thanks to Filip Vojtisek.
 	v1.3	February 6 2011	-	Rewrote the whole plugin to comply with jQuery's plugin standards
 	v1.2	September 2 2009
 **/
 
-;(function($) {
+(function($) {
 	
+	var t = null;
 	$.jqDialog = {
+		escape_callback: null,
+		enter_callback: null,
+
 		//________button / control labels
 		labels: {
 			ok: 'Ok',
 			yes: 'Yes',
 			no: 'No',
-			cancel: 'Cancel',
-			x: 'X'
+			cancel: 'Cancel'
 		},
 
 		//________element ids
@@ -27,7 +32,6 @@
 			div_box:	'jqDialog_box',
 			div_content:	'jqDialog_content',
 			div_options: 'jqDialog_options',
-			bt_close: 'jqDialog_close',
 			bt_yes: 'jqDialog_yes',
 			bt_no: 'jqDialog_no',
 			bt_ok: 'jqDialog_ok',
@@ -37,8 +41,6 @@
 		
 		//________confirm dialog
 		confirm: function(message, callback_yes, callback_no) {
-			var t = this;
-			
 			t.create(message);
 			
 			t.parts.bt_ok.hide();
@@ -50,20 +52,28 @@
 			
 			// just redo this everytime in case a new callback is presented
 			t.parts.bt_yes.unbind().click( function() {
+				t.cleanKeypressCallbacks();
 				t.close();
 				if(callback_yes) callback_yes();
 			});
+			// redundant method for 'enter' key binding
+			t.enter_callback = function() {
+				if(callback_yes) callback_yes();
+			};
 
 			t.parts.bt_no.unbind().click( function() {
+				t.cleanKeypressCallbacks();
 				t.close();
 				if(callback_no) callback_no();
 			});
+			// redundant method for 'escape' key binding
+			t.escape_callback = function() {
+				if(callback_no) callback_no();
+			};
 		},
 		
 		//________prompt dialog
 		prompt: function(message, content, callback_ok, callback_cancel) {
-			var t = this;
-
 			t.create(
 				$("<div>").
 					append(message)
@@ -81,20 +91,26 @@
 			
 			// just redo t everytime in case a new callback is presented
 			t.parts.bt_ok.unbind().click( function() {
+				t.cleanKeypressCallbacks();
 				t.close();
 				if(callback_ok) callback_ok( t.parts.input.val() );
 			});
-
+			t.enter_callback = function() {
+				if(callback_ok) callback_ok( t.parts.input.val() );
+			};
+			
 			t.parts.bt_cancel.unbind().click( function() {
+				t.cleanKeypressCallbacks();
 				t.close();
 				if(callback_cancel) callback_cancel();
 			});
+			t.escape_callback = function() {
+				if(callback_cancel) callback_cancel();
+			};
 		},
 		
 		//________alert dialog
 		alert: function(content, callback_ok) {
-			var t = this;
-			
 			t.create(content);
 
 			// activate appropriate controls
@@ -108,34 +124,35 @@
 			
 			// just redo this everytime in case a new callback is presented
 			t.parts.bt_ok.unbind().click( function() {
+				t.cleanKeypressCallbacks();
 				t.close();
-				if(callback_ok)
+				if(callback_ok) {
 					callback_ok();
+				}
 			});
+			t.escape_callback = function() {
+				if(callback_ok) {
+					callback_ok();
+				}
+			};
 		},
 
 		//________content
 		content: function(content, close_seconds) {
-			var t = this;
-			
 			t.create(content);
 			t.parts.div_options.hide();
 		},
 
 		//________auto-hiding notification
 		notify: function(content, close_seconds) {
-			var t = this;
-			
 			t.content(content);
-			t.parts.bt_close.focus();
-			if(close_seconds)
+			if(close_seconds) {
 				t.close_timer = setTimeout(function() { t.close(); }, close_seconds*1000 );
+			}
 		},
 
 		//________create a dialog box
 		create: function(content) {
-			var t = this;
-			
 			t.check();
 			
 			t.maintainPosition( t.parts.div_box );
@@ -147,7 +164,6 @@
 		},
 		//________close the dialog box
 		close: function() {
-			var t = this;
 			t.parts.div_box.fadeOut('fast');
 			t.clearPosition();
 		},
@@ -163,8 +179,6 @@
 			});
 		},
 		maintainPosition: function(object) {
-			var t = this;
-
 			t.makeCenter(object);
 			
 			$(window).bind('scroll.jqDialog', function() {
@@ -175,7 +189,6 @@
 		//________
 		init_done: false,
 		check: function() {
-			var t = this;
 			if(t.init_done)
 				return;
 			else {
@@ -185,8 +198,6 @@
 			$('body').append( t.parts.div_box );
 		},
 		init: function() {
-			var t = this;
-		
 			t.parts = {};
 			
 			// create the dialog components
@@ -200,16 +211,9 @@
 			t.parts.bt_cancel = $("<button>").attr({ id: t.ids.bt_cancel }).append( t.labels.cancel );
 
 			t.parts.input = $("<input>").attr({ id: t.ids.input });
-			t.parts.bt_close = $("<button>").attr({ id: t.ids.bt_close })
-										   .append( t.labels.x ).click(
-												function() {
-													t.close();
-												}
-											);
 
 			// assemble the parts
-			t.parts.div_box.append( t.parts.bt_close )
-					.append( t.parts.div_content )
+			t.parts.div_box.append( t.parts.div_content )
 					.append(
 						t.parts.div_options.append(t.parts.bt_yes)
 										   .append(t.parts.bt_no)
@@ -219,7 +223,40 @@
 
 			// add to body
 			t.parts.div_box.hide();
-		}
+			
+			// keyboard bindings
+			$(document).keyup(function(e) {
+				if(e.altKey) return;
+
+				if (e.keyCode == 13) {
+					t.enterPressed();
+				}
+				if (e.keyCode == 27) {
+					t.escapePressed();
+				}
+			});
+		},
+		cleanKeypressCallbacks: function() {
+			t.enter_callback = null;
+			t.escape_callback = null;
+		},
+		escapePressed: function() {
+			t.close();
+			if(t.escape_callback) {
+				t.enter_callback = null;
+				t.escape_callback();
+				t.escape_callback = null;
+			}
+		},
+		enterPressed: function() {
+			t.close();
+			if(t.enter_callback) {
+				t.escape_callback = null;
+				t.enter_callback();
+				t.enter_callback = null;
+			}
+		},
 	};
+	t = $.jqDialog;
 	$.jqDialog.init();
 })(jQuery);
