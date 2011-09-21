@@ -1,0 +1,103 @@
+body {
+	margin: 0px;
+	background: #ececec;
+	background-position: top center;
+	font-family: Arial;
+	font-size: 14px;
+	color: #333;
+}
+		
+#main {
+	background: #fff;
+	margin: 30px auto 0 auto;
+	padding: 20px;
+	width: 900px;
+	
+	box-shadow: 0 0 10px #ddd;
+}
+
+.o {
+	margin: 50px 0px 100px 0px;
+}
+
+pre {
+	background: #f0f0f0;
+	padding: 10px;
+	overflow: auto;
+	overflow-Y: hidden;
+}
+
+a {
+	background: #cc0000;
+	padding: 4px 8px;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 5px;
+}
+a:hover {
+	background: #000;
+}
+
+
+
+#jqDialog_box {
+	background: #f5f5f5;
+	position: absolute;
+	width: 450px;
+	height: 150px;
+	font-family: Arial;
+	
+	border-width: 1px 3px 3px 1px;
+	border-style: solid;
+	border-color: #ccc;
+
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-khtml-border-radius: 6px;
+	border-radius: 6px;
+	
+	-moz-box-shadow: 0 0 30px #e6e6e6;
+}
+#jqDialog_content {
+	margin: 10px;
+	font-weight: bold;
+	font-size: 12px;
+	height: 90px;
+	overflow: hidden;
+}
+
+#jqDialog_options {
+	margin: 10px;
+	text-align: center;
+}
+#jqDialog_options button {
+	font-family: Arial;
+	margin-right: 5px;
+	background: #000;
+	border: 0px;
+
+	font-size: 1.5em;
+	color: #fff;
+	width: auto;
+	
+	cursor: pointer;
+	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	border-radius: 3px;
+}
+
+#jqDialog_input {
+	padding: 4px;
+	width: 250px;
+}
+#jqDialog_close {
+	background: none;
+	border: none;
+	float: right;
+	font-weight: bold;
+	font-size: 10px;
+	color: #ff0000;
+	cursor: pointer;
+}

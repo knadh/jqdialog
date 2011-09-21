@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
+<head>
+	<title>jqDialog demo</title>
+	<link rel="stylesheet" type="text/css" href="jqdialog.css"/>
+
+	<meta name="descript" content="A tiny popup library for jQuery. Smooth popup replacements for alert(), confirm(), prompt()" />
+	<meta name="keywords" content="jquery,jqdialog,jquery popup library,jquery popup plugin,jquery dialog,jquery dialog library,jquery popup addon,jquery overlay,persistent dialog,persistent popup,popup scroll,alert alternative,confirm alternative,popup automatic disappear" />
+
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="jqdialog.min.js"></script>
+</head>
+<body>
+
+<div id="main">
+	<h1>jQDialog plugin for jQuery</h1>
+	<p>
+		<a href="http://github.com/knadh/jqdialog">GitHub page</a> <a href="https://github.com/knadh/jqdialog/zipball/master">Download ZIP</a>
+	</p>
+	<p>
+		<strong>jqDialog</strong> is a small (3.54 KB minified) dialog plugin that provides smooth, persistent, non-intrusive alternatives for alert(), confirm() and prompt(). There is also a notify() dialog that pops up and goes away in X seconds.
+	</p>
+	<p>
+		An IE7 compatibility bug was fixed (April 4, 2011), thanks to Filip Vojtisek.
+	</p>
+	
+	<p class="o">
+		<button id="bt-notify">notify</button>
+		<button id="bt-alert">alert</button>
+		<button id="bt-confirm">confirm</button>
+		<button id="bt-prompt">prompt</button>
+		<button id="bt-content">custom content</button>
+	</p>
+
+<h3>Example code</h3>
+<pre>
+// notify dialog
+$.jqDialog.notify("This dialog will disappear in 3 seconds", 3);
+
+// alert dialog
+$.jqDialog.alert("This is a non intrusive alert", function() {	// callback function for 'OK' button
+	alert("This intrusive alert says you clicked OK");
+});
+
+// prompt
+$.jqDialog.prompt("Please enter your name",	// message
+	'Sam',	// default value in the input
+	function(data) { alert("Your name is " + data); },		// callback function for 'OK' button
+	function() { alert("This intrusive alert says you clicked Cancel"); }		// callback function for 'Cancel' button
+);
+
+// confirm dialog
+$.jqDialog.confirm("Are you sure want to click either of these buttons?",
+	function() { alert("This intrusive alert says you clicked YES"); },		// callback function for 'YES' button
+	function() { alert("This intrusive alert says you clicked NO"); }		// callback function for 'NO' button
+);
+
+// custom content
+$.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input type="text" name="test" /&gt;');
+</pre>
+<br /><br />
+<script type="text/javascript">
+<!--
+
+	// jqDialog examples
+	
+	// notify dialog
+	$('#bt-notify').click( function() { $.jqDialog.notify("This dialog will disappear in 3 seconds", 3); } );
+	
+	// alert dialog
+	$('#bt-alert').click(function() {
+		$.jqDialog.alert("This is a non intrusive alert", function() {	// callback function for 'OK' button
+			alert("This intrusive alert says you clicked OK");
+		});
+	} );
+
+	// prompt
+	$('#bt-prompt').click( function() {
+		$.jqDialog.prompt("Please enter your name",
+			'Sam',
+			function(data) { alert("Your name is " + data); },		// callback function for 'OK' button
+			function() { alert("This intrusive alert says you clicked Cancel"); }		// callback function for 'Cancel' button
+		);
+	} );
+
+	// confirm dialog
+	$('#bt-confirm').click( function() {
+		$.jqDialog.confirm("Are you sure want to click either of these buttons?",
+			function() { alert("This intrusive alert says you clicked YES"); },		// callback function for 'YES' button
+			function() { alert("This intrusive alert says you clicked NO"); }		// callback function for 'NO' button
+		);
+	} );
+	
+	// custom cotent dialog
+	$('#bt-content').click( function() {
+		$.jqDialog.content('No dialog controls, just custom content<br /><input type="text" name="test" />');
+	} );
+
+
+
+
+
+	// vertical scrollbar
+	for(var i=0; i<50; i++) {
+		$("#main").append("<p>").append("Scroll to see dialog persistence");
+	}
+
+//-->
+</script>
+
+	<p>&mdash; <a href="http://kailashnadh.name">Kailash Nadh</a></p>
+
+</div><!-- main //-->
+
+</body>
+</html>
