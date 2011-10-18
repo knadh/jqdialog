@@ -5,7 +5,7 @@
 	<title>jqDialog demo</title>
 	<link rel="stylesheet" type="text/css" href="jqdialog.css"/>
 
-	<meta name="descript" content="A tiny popup library for jQuery. Smooth popup replacements for alert(), confirm(), prompt()" />
+	<meta name="description" content="A tiny popup library for jQuery. Smooth popup replacements for alert(), confirm(), prompt()" />
 	<meta name="keywords" content="jquery,jqdialog,jquery popup library,jquery popup plugin,jquery dialog,jquery dialog library,jquery popup addon,jquery overlay,persistent dialog,persistent popup,popup scroll,alert alternative,confirm alternative,popup automatic disappear" />
 
 	<script type="text/javascript" src="jquery.min.js"></script>
@@ -33,7 +33,9 @@
 		<button id="bt-prompt">prompt</button>
 		<button id="bt-content">custom content</button>
 	</p>
-
+	
+	<h1 id="message">&nbsp;</h1>
+	
 <h3>Example code</h3>
 <pre>
 // notify dialog
@@ -72,7 +74,7 @@ $.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input
 	// alert dialog
 	$('#bt-alert').click(function() {
 		$.jqDialog.alert("This is a non intrusive alert", function() {	// callback function for 'OK' button
-			alert("This intrusive alert says you clicked OK");
+			$('#message').html('OK');
 		});
 	} );
 
@@ -80,16 +82,16 @@ $.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input
 	$('#bt-prompt').click( function() {
 		$.jqDialog.prompt("Please enter your name",
 			'Sam',
-			function(data) { alert("Your name is " + data); },		// callback function for 'OK' button
-			function() { alert("This intrusive alert says you clicked Cancel"); }		// callback function for 'Cancel' button
+			function(data) { $('#message').html(data); },		// callback function for 'OK' button
+			function() { $('#message').html('Cancel'); }		// callback function for 'Cancel' button
 		);
 	} );
 
 	// confirm dialog
 	$('#bt-confirm').click( function() {
 		$.jqDialog.confirm("Are you sure want to click either of these buttons?",
-			function() { alert("This intrusive alert says you clicked YES"); },		// callback function for 'YES' button
-			function() { alert("This intrusive alert says you clicked NO"); }		// callback function for 'NO' button
+			function() { $('#message').html('YES'); },		// callback function for 'YES' button
+			function() { $('#message').html('NO'); }		// callback function for 'NO' button
 		);
 	} );
 	
