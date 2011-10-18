@@ -2,7 +2,9 @@
 jqDialog is a small (3.6 KB minified) dialog plugin that provides smooth, persistent, non-intrusive alternatives for alert(), confirm() and prompt(). There is also a notify() dialog that pops up and goes away in X seconds.
 
 Kailash Nadh, September 2011
+
 Documentation: http://kailashnadh.name/code/jqdialog
+
 License:	GNU Public License, http://www.fsf.org/copyleft/gpl.html
 
 ## Example
