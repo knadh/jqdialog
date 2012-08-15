@@ -9,7 +9,7 @@
 	<meta name="keywords" content="jquery,jqdialog,jquery popup library,jquery popup plugin,jquery dialog,jquery dialog library,jquery popup addon,jquery overlay,persistent dialog,persistent popup,popup scroll,alert alternative,confirm alternative,popup automatic disappear" />
 
 	<script type="text/javascript" src="jquery.min.js"></script>
-	<script type="text/javascript" src="jqdialog.js"></script>
+	<script type="text/javascript" src="jqdialog.min.js"></script>
 </head>
 <body>
 
@@ -65,6 +65,11 @@ $.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input
 <br /><br />
 <script type="text/javascript">
 <!--
+
+	// jqDialog - settings defaults
+	$.jqDialog.setDefaults({
+		overlay: true,		// true/false
+	});
 
 	// jqDialog examples
 
