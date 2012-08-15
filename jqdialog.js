@@ -42,8 +42,7 @@
 
 		//________defaults
 		defaults: {
-			overlay: true,
-			overlayColor: 'rgba(0,0,0,0.75)'
+			overlay: true
 		},
 
 		//________confirm dialog
@@ -163,7 +162,7 @@
 
 			t.check();
 
-			t.maintainPosition( t.parts.div_box );
+			t.makeCenter( t.parts.div_box );
 
 			clearTimeout(t.close_timer);
 			t.parts.div_content.html(content);
@@ -190,19 +189,11 @@
 			$(window).unbind('scroll.jqDialog');
 		},
 		makeCenter: function(object) {
+
 			object.css({
-				top: ( (($(window).height() / 2) - ( object.height() / 2 ) )) + ($(document).scrollTop()) + 'px',
-				left: ( (($(window).width() / 2) - ( object.width() / 2 ) )) + ($(document).scrollLeft()) + 'px'
+				marginTop: - object.height() / 2 + 'px',
+				marginLeft: - object.width() / 2 + 'px'
 			});
-		},
-		maintainPosition: function(object) {
-
-			t.makeCenter(object);
-
-			$(window).bind('scroll.jqDialog', function() {
-				if(!t.defaults.overlay)
-					t.makeCenter(object);
-			} );
 		},
 
 		//________
@@ -225,7 +216,7 @@
 			t.parts = {};
 
 			// create the dialog components
-			t.parts.div_overlay = $("<div>").attr({ id: t.ids.div_overlay }).css({ background: t.defaults.overlayColor} );
+			t.parts.div_overlay = $("<div>").attr({ id: t.ids.div_overlay });
 			t.parts.div_box = $("<div>").attr({ id: t.ids.div_box });
 			t.parts.div_content = $("<div>").attr({ id: t.ids.div_content });
 			t.parts.div_options = $("<div>").attr({ id: t.ids.div_options });
@@ -247,12 +238,12 @@
 							.append(t.parts.bt_cancel)
 					);
 
+			// add to body
 			if(t.defaults.overlay)
 			{
 				t.parts.div_overlay.append( t.parts.div_box );
 				t.parts.div_overlay.hide();
 			} else {
-				// add to body
 				t.parts.div_box.hide();
 			}
 
@@ -276,8 +267,7 @@
 			t.init();
 		},
 		setDefaults: function(options){
-			t.defaults = $.extend(t.defaults, options);
-			t.reinit();
+			$.extend(t.defaults, options);
 		},
 		cleanKeypressCallbacks: function() {
 			t.enter_callback = null;
