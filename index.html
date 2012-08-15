@@ -25,7 +25,7 @@
 		- Support for 'Enter' and 'Escape' keyboard shortcuts added (September 21, 2011)<br />
 		- An IE7 compatibility bug was fixed (April 4, 2011), thanks to Filip Vojtisek.
 	</p>
-	
+
 	<p class="o">
 		<button id="bt-notify">notify</button>
 		<button id="bt-alert">alert</button>
@@ -33,9 +33,9 @@
 		<button id="bt-prompt">prompt</button>
 		<button id="bt-content">custom content</button>
 	</p>
-	
+
 	<h1 id="message">&nbsp;</h1>
-	
+
 <h3>Example code</h3>
 <pre>
 // notify dialog
@@ -66,11 +66,16 @@ $.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input
 <script type="text/javascript">
 <!--
 
+	// jqDialog - settings defaults
+	$.jqDialog.setDefaults({
+		overlay: true,		// true/false
+	});
+
 	// jqDialog examples
-	
+
 	// notify dialog
 	$('#bt-notify').click( function() { $.jqDialog.notify("This dialog will disappear in 3 seconds", 3); } );
-	
+
 	// alert dialog
 	$('#bt-alert').click(function() {
 		$.jqDialog.alert("This is a non intrusive alert", function() {	// callback function for 'OK' button
@@ -94,7 +99,7 @@ $.jqDialog.content('No dialog controls, just custom content&lt;br /&gt;&lt;input
 			function() { $('#message').html('NO'); }		// callback function for 'NO' button
 		);
 	} );
-	
+
 	// custom cotent dialog
 	$('#bt-content').click( function() {
 		$.jqDialog.content('No dialog controls, just custom content<br /><input type="text" name="test" />');

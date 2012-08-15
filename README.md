@@ -9,6 +9,11 @@ License:	GNU Public License, http://www.fsf.org/copyleft/gpl.html
 
 ## Example
 <pre>
+// modify default settings
+$.jqDialog.setDefaults({
+	overlay: true
+});
+
 // notify dialog
 $.jqDialog.notify("This dialog will disappear in 3 seconds", 3);
 
