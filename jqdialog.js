@@ -6,6 +6,7 @@
 
 	License: GPL
 	
+	v1.5	August 8 2013	-	Fixed flickering when a dialog is already visible
 	v1.4	September 21 2011	-	Added support for Enter and Escape keyboard shortcuts.
 	v1.3.1	April 4 2011	-	Fixed an IE compatibility issue. Thanks to Filip Vojtisek.
 	v1.3	February 6 2011	-	Rewrote the whole plugin to comply with jQuery's plugin standards
@@ -18,6 +19,8 @@
 	$.jqDialog = {
 		escape_callback: null,
 		enter_callback: null,
+		active: false,
+		close_timer: null,
 
 		//________button / control labels
 		labels: {
@@ -153,6 +156,7 @@
 
 		//________create a dialog box
 		create: function(content) {
+			window.clearTimeout(t.close_timer);
 			t.check();
 			
 			t.maintainPosition( t.parts.div_box );
@@ -160,12 +164,22 @@
 			clearTimeout(t.close_timer);
 			t.parts.div_content.html(content);
 			t.parts.div_options.show();
-			t.parts.div_box.fadeIn('fast');
+
+			if(!t.active) {
+				t.parts.div_box.fadeIn('fast');
+			} else {
+				t.parts.div_box.show();					
+			}
+
+			t.active = true;
 		},
 		//________close the dialog box
 		close: function() {
-			t.parts.div_box.fadeOut('fast');
-			t.clearPosition();
+			t.close_timer = window.setTimeout(function() {
+				t.parts.div_box.fadeOut('fast');
+				t.clearPosition();
+				t.active = false;
+			});
 		},
 
 		//________position control
